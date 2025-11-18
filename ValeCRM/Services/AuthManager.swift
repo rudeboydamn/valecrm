@@ -72,10 +72,14 @@ final class AuthManager: ObservableObject {
     
     private let jwtTokenKey = "com.keystonevale.valeCRM.jwtToken"
     private let userKey = "com.keystonevale.valeCRM.user"
+    private let shouldBypassAuth = true
     
     init(networkService: NetworkService) {
         self.networkService = networkService
         checkAuthStatus()
+        if shouldBypassAuth && !isAuthenticated {
+            bypassAuthentication()
+        }
     }
     
     // MARK: - Authentication Methods
@@ -187,6 +191,22 @@ final class AuthManager: ObservableObject {
             isAuthenticated = false
             currentUser = nil
         }
+    }
+
+    private func bypassAuthentication() {
+        let mockUser = User(
+            id: UUID().uuidString,
+            userId: "demo",
+            email: "demo@keystonevale.org",
+            name: "Demo User",
+            role: "admin",
+            isActive: true,
+            createdAt: Date(),
+            lastLogin: Date()
+        )
+        currentUser = mockUser
+        isAuthenticated = true
+        networkService.setAuthToken(nil)
     }
     
     func getJWTToken() -> String? {

@@ -11,7 +11,15 @@ struct TasksListView: View {
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 0) {
+            VStack(spacing: 12) {
+                TasksSummaryRow(selectedSegment: $selectedSegment,
+                                 allCount: viewModel.tasks.count,
+                                 todayCount: viewModel.todayTasks.count,
+                                 overdueCount: viewModel.overdueTasks.count,
+                                 completedCount: viewModel.completedTasks.count)
+                    .padding(.horizontal)
+                    .padding(.top, 8)
+                
                 // Segment Control
                 Picker("Filter", selection: $selectedSegment) {
                     Text("All").tag(0)
@@ -20,7 +28,7 @@ struct TasksListView: View {
                     Text("Completed").tag(3)
                 }
                 .pickerStyle(.segmented)
-                .padding()
+                .padding(.horizontal)
                 
                 // Task List
                 if viewModel.isLoading && viewModel.tasks.isEmpty {
@@ -84,6 +92,54 @@ struct TasksListView: View {
             let task = filteredTasksList[index]
             viewModel.deleteTask(task)
         }
+    }
+}
+
+private struct TasksSummaryRow: View {
+    @Binding var selectedSegment: Int
+    let allCount: Int
+    let todayCount: Int
+    let overdueCount: Int
+    let completedCount: Int
+    
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 12) {
+                summaryButton(title: "All", count: allCount, color: .blue, tag: 0)
+                summaryButton(title: "Today", count: todayCount, color: .orange, tag: 1)
+                summaryButton(title: "Overdue", count: overdueCount, color: .red, tag: 2)
+                summaryButton(title: "Completed", count: completedCount, color: .green, tag: 3)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func summaryButton(title: String, count: Int, color: Color, tag: Int) -> some View {
+        Button(action: { selectedSegment = tag }) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text(title.uppercased())
+                    .font(.caption2)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.secondary)
+                HStack(alignment: .lastTextBaseline, spacing: 4) {
+                    Text("\(count)")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    Circle()
+                        .fill(color)
+                        .frame(width: 8, height: 8)
+                }
+            }
+            .padding()
+            .frame(width: 120, alignment: .leading)
+            .background(selectedSegment == tag ? color.opacity(0.1) : Color(.systemBackground))
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(selectedSegment == tag ? color : Color.gray.opacity(0.2), lineWidth: 1)
+            )
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+        }
+        .buttonStyle(.plain)
     }
 }
 

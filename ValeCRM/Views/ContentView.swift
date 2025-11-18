@@ -22,22 +22,6 @@ struct ContentView: View {
                             Label("Dashboard", systemImage: "chart.bar.fill")
                         }
                     
-                    LeadsListView()
-                        .environmentObject(leadViewModel)
-                        .tabItem {
-                            Label("Leads", systemImage: "person.2.fill")
-                        }
-                    
-                    ClientsListView()
-                        .tabItem {
-                            Label("Clients", systemImage: "person.3.fill")
-                        }
-                    
-                    TasksListView()
-                        .tabItem {
-                            Label("Tasks", systemImage: "checkmark.circle.fill")
-                        }
-                    
                     ProjectsListView()
                         .environmentObject(projectViewModel)
                         .tabItem {
@@ -50,7 +34,13 @@ struct ContentView: View {
                             Label("Portfolio", systemImage: "building.2.fill")
                         }
                     
+                    TasksListView()
+                        .tabItem {
+                            Label("Tasks", systemImage: "checkmark.circle.fill")
+                        }
+                    
                     MoreView()
+                        .environmentObject(authManager)
                         .tabItem {
                             Label("More", systemImage: "ellipsis.circle.fill")
                         }
@@ -130,52 +120,61 @@ struct DashboardCard: View {
 // More View with additional features and settings
 struct MoreView: View {
     @EnvironmentObject var authManager: AuthManager
-    @State private var showingCommunications = false
-    @State private var showingDocuments = false
-    @State private var showingReports = false
-    @State private var showingSettings = false
     
     var body: some View {
-        NavigationView {
-            List {
-                Section("Features") {
-                    NavigationLink(destination: CommunicationsView()) {
-                        Label("Communications", systemImage: "bubble.left.and.bubble.right.fill")
+        if #available(iOS 16.0, *) {
+            NavigationStack {
+                List {
+                    Section("Sales & Operations") {
+                        NavigationLink(destination: LeadsListView()) {
+                            Label("Leads", systemImage: "person.2.fill")
+                        }
+                        
+                        NavigationLink(destination: ClientsListView()) {
+                            Label("Clients", systemImage: "person.3.fill")
+                        }
+                        
+                        NavigationLink(destination: CommunicationsView()) {
+                            Label("Communications", systemImage: "bubble.left.and.bubble.right.fill")
+                        }
+                        
+                        NavigationLink(destination: DocumentsView()) {
+                            Label("Documents", systemImage: "doc.fill")
+                        }
                     }
                     
-                    NavigationLink(destination: DocumentsView()) {
-                        Label("Documents", systemImage: "doc.fill")
+                    Section("Insights") {
+                        NavigationLink(destination: ReportsView()) {
+                            Label("Reports & Analytics", systemImage: "chart.xyaxis.line")
+                        }
                     }
                     
-                    NavigationLink(destination: ReportsView()) {
-                        Label("Reports & Analytics", systemImage: "chart.xyaxis.line")
-                    }
-                }
-                
-                Section("Account") {
-                    NavigationLink(destination: ProfileView()) {
-                        Label("Profile", systemImage: "person.circle.fill")
+                    Section("Account") {
+                        NavigationLink(destination: ProfileView()) {
+                            Label("Profile", systemImage: "person.circle.fill")
+                        }
+                        
+                        NavigationLink(destination: SettingsView()) {
+                            Label("Settings", systemImage: "gear")
+                        }
                     }
                     
-                    NavigationLink(destination: SettingsView()) {
-                        Label("Settings", systemImage: "gear")
-                    }
-                }
-                
-                Section {
-                    Button(action: {
-                        authManager.signOut()
-                    }) {
-                        HStack {
-                            Spacer()
-                            Text("Sign Out")
-                                .foregroundColor(.red)
-                            Spacer()
+                    Section {
+                        Button(role: .destructive) {
+                            authManager.signOut()
+                        } label: {
+                            HStack {
+                                Spacer()
+                                Text("Sign Out")
+                                Spacer()
+                            }
                         }
                     }
                 }
+                .navigationTitle("More")
             }
-            .navigationTitle("More")
+        } else {
+            // Fallback on earlier versions
         }
     }
 }
