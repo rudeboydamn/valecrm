@@ -65,7 +65,7 @@
 ### Architecture Components
 
 ```
-crm-ios-app/
+valecrm/
 ├── CRMApp.swift           # App entry point
 ├── Config.swift            # Configuration management
 ├── Models/                 # Data models
@@ -103,8 +103,8 @@ crm-ios-app/
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/rudeboydamn/crm-ios-app.git
-cd crm-ios-app
+git clone https://github.com/rudeboydamn/valecrm.git
+cd valecrm
 ```
 
 2. **Open in Xcode**
@@ -278,7 +278,7 @@ This project is proprietary software for KeystoneVale.
 
 ## 🔗 Links
 
-- **GitHub**: https://github.com/rudeboydamn/crm-ios-app
+- **GitHub**: https://github.com/rudeboydamn/valecrm
 - **Supabase Dashboard**: https://supabase.com/dashboard
 - **HubSpot Account**: KeystoneCRM
 

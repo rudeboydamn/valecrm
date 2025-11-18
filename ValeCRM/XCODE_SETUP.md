@@ -30,7 +30,7 @@ After creating the project, you'll need to add all the Swift files from this rep
 
 ### Method 1: Drag and Drop (Recommended)
 
-1. In **Finder**, navigate to the `crm-ios-app` folder
+1. In **Finder**, navigate to the `valecrm` folder
 2. Open **Xcode** with your new project
 3. In Xcode's **Project Navigator** (left sidebar), select the project root
 4. Drag the following folders from Finder into Xcode:

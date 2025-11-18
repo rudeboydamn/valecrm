@@ -2,17 +2,10 @@
 
 #include? "ConfigSecrets.xcconfig"
 
-API_BASE_URL = https://example.com
-JWT_SECRET = placeholder-jwt-secret
-ADMIN_USER_ID = admin
-ADMIN_EMAIL = admin@example.com
-FROM_EMAIL = noreply@example.com
-ADMIN_EMAIL_ADDRESS = admin-team@example.com
-HUBSPOT_API_KEY = placeholder-hubspot-key
-HUBSPOT_PORTAL_ID = 000000
+API_BASE_URL = https://keystonevale.org
 APP_NAME = ValeCRM
 APP_VERSION = 1.0
 COMPANY_NAME = Keystone Vale
-SUPPORT_EMAIL = support@example.com
-WEBSITE_URL = https://example.com
-PHONE_NUMBER = (000) 000-0000
+SUPPORT_EMAIL = dammy@keystonevale.org
+WEBSITE_URL = https://keystonevale.org
+PHONE_NUMBER = (717) 436-3880

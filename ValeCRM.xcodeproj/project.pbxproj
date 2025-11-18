@@ -35,12 +35,12 @@
 		C1496D3B2EC7820800F24972 /* ValeCRM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ValeCRM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1496D482EC7820E00F24972 /* ValeCRMTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ValeCRMTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1496D522EC7820E00F24972 /* ValeCRMUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ValeCRMUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C1C0FF002FC7A00100F24972 /* Config.base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "ValeCRM/Config.base.xcconfig"; sourceTree = "<group>"; };
 		C1496DC82EC7857700F24972 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		C1496DCA2EC7858A00F24972 /* Combine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Combine.framework; path = System/Library/Frameworks/Combine.framework; sourceTree = SDKROOT; };
 		C1496DCC2EC7859A00F24972 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C1496DCE2EC785AC00F24972 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
 		C1496DD02EC785B900F24972 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		C1C0FF002FC7A00100F24972 /* ValeCRM/Config.base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ValeCRM/Config.base.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -112,6 +112,7 @@
 				C1496D552EC7820E00F24972 /* ValeCRMUITests */,
 				C1496DC72EC7857600F24972 /* Frameworks */,
 				C1496D3C2EC7820800F24972 /* Products */,
+				C1D98E942ECC1221004AB4D6 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -135,6 +136,14 @@
 				C1496DC82EC7857700F24972 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C1D98E942ECC1221004AB4D6 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				C1C0FF002FC7A00100F24972 /* ValeCRM/Config.base.xcconfig */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -437,12 +446,13 @@
 			name = Release;
 		};
 		C1496D5D2EC7820E00F24972 /* Debug */ = {
-			baseConfigurationReference = C1C0FF002FC7A00100F24972 /* Config.base.xcconfig */;
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C1C0FF002FC7A00100F24972 /* ValeCRM/Config.base.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 79X62NX954;
@@ -450,10 +460,13 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ValeCRM/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ValeCRM;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
+				INFOPLIST_KEY_NSCameraUsageDescription = "ValeCRM needs camera access to take photos of properties.";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "ValeCRM uses Face ID to securely authenticate you and protect your data.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "ValeCRM needs photo library access to attach property images.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
@@ -462,8 +475,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.keystonevale.ValeCRM;
+				PRODUCT_BUNDLE_IDENTIFIER = org.dammy.ValeCRM;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -475,12 +489,13 @@
 			name = Debug;
 		};
 		C1496D5E2EC7820E00F24972 /* Release */ = {
-			baseConfigurationReference = C1C0FF002FC7A00100F24972 /* Config.base.xcconfig */;
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C1C0FF002FC7A00100F24972 /* ValeCRM/Config.base.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 79X62NX954;
@@ -488,10 +503,13 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ValeCRM/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = ValeCRM;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
+				INFOPLIST_KEY_NSCameraUsageDescription = "ValeCRM needs camera access to take photos of properties.";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "ValeCRM uses Face ID to securely authenticate you and protect your data.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "ValeCRM needs photo library access to attach property images.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
@@ -500,8 +518,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = org.keystonevale.ValeCRM;
+				PRODUCT_BUNDLE_IDENTIFIER = org.dammy.ValeCRM;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;

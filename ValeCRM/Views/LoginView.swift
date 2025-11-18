@@ -4,6 +4,7 @@ struct LoginView: View {
     @EnvironmentObject var authManager: AuthManager
     @State private var userId = "dammy"
     @State private var password = "valley"
+    @State private var didAttemptAutoLogin = false
     
     var body: some View {
         NavigationView {
@@ -11,7 +12,7 @@ struct LoginView: View {
                 Spacer()
                 
                 // Logo/Branding
-                Image(systemName: "building.2.circle.fill")
+                Image(systemName: brandSymbolName)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 120, height: 120)
@@ -43,7 +44,7 @@ struct LoginView: View {
                             .foregroundColor(.red)
                             .multilineTextAlignment(.center)
                     }
-                    
+
                     Button(action: {
                         authManager.signIn(userId: userId, password: password)
                     }) {
@@ -102,6 +103,17 @@ struct LoginView: View {
                 .padding(.bottom, 30)
             }
             .navigationBarHidden(true)
+            .onAppear(perform: attemptAutoLogin)
         }
+    }
+    
+    private var brandSymbolName: String {
+        return "house.circle.fill"
+    }
+    
+    private func attemptAutoLogin() {
+        guard !didAttemptAutoLogin else { return }
+        didAttemptAutoLogin = true
+        authManager.signIn(userId: userId, password: password)
     }
 }

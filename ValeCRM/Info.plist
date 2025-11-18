@@ -2,65 +2,74 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleDisplayName</key>
-	<string>ValeCRM</string>
-	<key>LSApplicationCategoryType</key>
-	<string>public.app-category.business</string>
-	<key>NSFaceIDUsageDescription</key>
-	<string>ValeCRM uses Face ID to securely authenticate you and protect your data.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>ValeCRM needs camera access to take photos of properties.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>ValeCRM needs photo library access to attach property images.</string>
-	<key>APIBaseURL</key>
-	<string>$(API_BASE_URL)</string>
-	<key>JWTSecret</key>
-	<string>$(JWT_SECRET)</string>
-	<key>AdminUserId</key>
-	<string>$(ADMIN_USER_ID)</string>
-	<key>AdminEmail</key>
-	<string>$(ADMIN_EMAIL)</string>
-	<key>FromEmail</key>
-	<string>$(FROM_EMAIL)</string>
-	<key>AdminEmailAddress</key>
-	<string>$(ADMIN_EMAIL_ADDRESS)</string>
-	<key>HubSpotAPIKey</key>
-	<string>$(HUBSPOT_API_KEY)</string>
-	<key>HubSpotPortalID</key>
-	<string>$(HUBSPOT_PORTAL_ID)</string>
-	<key>AppName</key>
-	<string>$(APP_NAME)</string>
-	<key>AppVersion</key>
-	<string>$(APP_VERSION)</string>
-	<key>CompanyName</key>
-	<string>$(COMPANY_NAME)</string>
-	<key>SupportEmail</key>
-	<string>$(SUPPORT_EMAIL)</string>
-	<key>WebsiteURL</key>
-	<string>$(WEBSITE_URL)</string>
-	<key>PhoneNumber</key>
-	<string>$(PHONE_NUMBER)</string>
-	<key>UILaunchScreen</key>
-	<dict>
-		<key>UIColorName</key>
-		<string>LaunchScreenBackground</string>
-		<key>UIImageName</key>
-		<string>LaunchScreenLogo</string>
-	</dict>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~iphone</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
+    <!-- Standard app metadata -->
+    <key>CFBundleDisplayName</key>
+    <string>$(APP_NAME)</string>
+    <key>LSApplicationCategoryType</key>
+    <string>public.app-category.business</string>
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
+
+    <!-- Privacy usage descriptions -->
+    <key>NSFaceIDUsageDescription</key>
+    <string>ValeCRM uses Face ID to securely authenticate you and protect your data.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>ValeCRM needs camera access to take photos of properties.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>ValeCRM needs photo library access to attach property images.</string>
+
+    <!-- Launch screen config -->
+    <key>UILaunchScreen</key>
+    <dict>
+        <key>UIColorName</key>
+        <string>LaunchScreenBackground</string>
+        <key>UIImageName</key>
+        <string>LaunchScreenLogo</string>
+    </dict>
+
+    <!-- Supported orientations -->
+    <key>UISupportedInterfaceOrientations~iphone</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+    <key>UISupportedInterfaceOrientations~ipad</key>
+    <array>
+        <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationPortraitUpsideDown</string>
+        <string>UIInterfaceOrientationLandscapeLeft</string>
+        <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+
+    <!-- Dynamic configuration values -->
+    <key>APIBaseURL</key>
+    <string>$(API_BASE_URL)</string>
+    <key>AdminUserId</key>
+    <string>$(ADMIN_USER_ID)</string>
+    <key>AdminEmail</key>
+    <string>$(ADMIN_EMAIL)</string>
+    <key>AdminEmailAddress</key>
+    <string>$(ADMIN_EMAIL_ADDRESS)</string>
+    <key>FromEmail</key>
+    <string>$(FROM_EMAIL)</string>
+    <key>HubSpotAPIKey</key>
+    <string>$(HUBSPOT_API_KEY)</string>
+    <key>HubSpotPortalID</key>
+    <string>$(HUBSPOT_PORTAL_ID)</string>
+    <key>JWTSecret</key>
+    <string>$(JWT_SECRET)</string>
+    <key>AppName</key>
+    <string>$(APP_NAME)</string>
+    <key>AppVersion</key>
+    <string>$(APP_VERSION)</string>
+    <key>CompanyName</key>
+    <string>$(COMPANY_NAME)</string>
+    <key>SupportEmail</key>
+    <string>$(SUPPORT_EMAIL)</string>
+    <key>WebsiteURL</key>
+    <string>$(WEBSITE_URL)</string>
+    <key>PhoneNumber</key>
+    <string>$(PHONE_NUMBER)</string>
 </dict>
 </plist>

@@ -26,7 +26,7 @@
 ### 3. Git Repository
 - [x] Repository initialized
 - [x] Code committed
-- [x] Pushed to GitHub: https://github.com/rudeboydamn/crm-ios-app
+- [x] Pushed to GitHub: https://github.com/rudeboydamn/valecrm
 
 ## 📋 Remaining Steps for App Store
 
