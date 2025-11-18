@@ -1,0 +1,48 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle for favicon compatibility -->
+  <circle cx="100" cy="100" r="95" fill="#1a4d2e" opacity="0.95"/>
+  
+  <!-- Keystone arch structure -->
+  <g transform="translate(100, 100)">
+    <!-- Base of the arch/house -->
+    <path d="M -45 35 L -45 -10 L -35 -20 L 35 -20 L 45 -10 L 45 35 Z" 
+          fill="#f0f0f0" stroke="#d4af37" stroke-width="2"/>
+    
+    <!-- Roof/Keystone top -->
+    <path d="M -50 -10 L 0 -50 L 50 -10 L 40 -10 L 0 -35 L -40 -10 Z" 
+          fill="#d4af37"/>
+    
+    <!-- Central keystone piece -->
+    <rect x="-8" y="-50" width="16" height="12" fill="#d4af37" stroke="#1a4d2e" stroke-width="1.5"/>
+    
+    <!-- Door -->
+    <rect x="-12" y="10" width="24" height="25" rx="2" fill="#1a4d2e"/>
+    
+    <!-- Windows -->
+    <rect x="-35" y="5" width="15" height="15" rx="1" fill="#d4af37" opacity="0.8"/>
+    <rect x="20" y="5" width="15" height="15" rx="1" fill="#d4af37" opacity="0.8"/>
+    
+    <!-- Window panes -->
+    <line x1="-27.5" y1="5" x2="-27.5" y2="20" stroke="#1a4d2e" stroke-width="1.5"/>
+    <line x1="-35" y1="12.5" x2="-20" y2="12.5" stroke="#1a4d2e" stroke-width="1.5"/>
+    <line x1="27.5" y1="5" x2="27.5" y2="20" stroke="#1a4d2e" stroke-width="1.5"/>
+    <line x1="20" y1="12.5" x2="35" y2="12.5" stroke="#1a4d2e" stroke-width="1.5"/>
+    
+    <!-- Hammer and wrench crossed (renovation symbol) -->
+    <g transform="translate(0, -15) scale(0.4)">
+      <!-- Hammer -->
+      <path d="M -5 -25 L -5 15 L 0 15 L 0 -25 Z" fill="#d4af37"/>
+      <rect x="-10" y="-30" width="10" height="8" fill="#d4af37"/>
+      
+      <!-- Wrench -->
+      <path d="M 5 -15 L 5 20 L 10 20 L 10 -15 Z" fill="#d4af37"/>
+      <circle cx="7.5" cy="-17" r="5" fill="none" stroke="#d4af37" stroke-width="2"/>
+    </g>
+  </g>
+  
+  <!-- Company name -->
+  <text x="100" y="175" font-family="Arial, sans-serif" font-size="18" font-weight="bold" 
+        fill="#f0f0f0" text-anchor="middle" letter-spacing="1">KEYSTONE</text>
+  <text x="100" y="190" font-family="Arial, sans-serif" font-size="16" font-weight="500" 
+        fill="#d4af37" text-anchor="middle" letter-spacing="2">VALE</text>
+</svg>
