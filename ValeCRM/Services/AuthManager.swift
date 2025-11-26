@@ -68,7 +68,7 @@ final class AuthManager: ObservableObject {
     @Published var errorMessage: String?
     
     private let supabase = SupabaseManager.shared
-    private var authStateTask: Swift.Task<Void, Never>?
+    private var authStateTask: _Concurrency.Task<Void, Never>?
     private var cancellables = Set<AnyCancellable>()
     
     init() {
@@ -198,7 +198,7 @@ final class AuthManager: ObservableObject {
     
     /// Setup listener for auth state changes
     private func setupAuthStateListener() {
-        authStateTask = Swift.Task {
+        authStateTask = _Concurrency.Task {
             for await state in await supabase.auth.authStateChanges {
                 await handleAuthStateChange(state.event, session: state.session)
             }
@@ -233,7 +233,7 @@ final class AuthManager: ObservableObject {
     
     /// Check initial auth status on app launch
     private func checkInitialAuthStatus() {
-        Swift.Task {
+        _Concurrency.Task {
             do {
                 let session = try await supabase.auth.session
                 

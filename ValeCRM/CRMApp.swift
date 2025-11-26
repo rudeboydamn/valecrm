@@ -2,12 +2,7 @@ import SwiftUI
 
 @main
 struct CRMApp: App {
-    @StateObject private var authManager: AuthManager
-    
-    init() {
-        let networkService = NetworkService.shared
-        _authManager = StateObject(wrappedValue: AuthManager(networkService: networkService))
-    }
+    @StateObject private var authManager = AuthManager()
 
     var body: some Scene {
         WindowGroup {

@@ -12,7 +12,7 @@ final class CommunicationViewModel: ObservableObject {
     private let databaseService = CommunicationDatabaseService.shared
     private let realtimeManager = RealtimeManager.shared
     private var cancellables = Set<AnyCancellable>()
-    private var realtimeTask: Swift.Task<Void, Never>?
+    private var realtimeTask: _Concurrency.Task<Void, Never>?
     
     var filteredCommunications: [Communication] {
         communications.filter { comm in
@@ -131,7 +131,7 @@ final class CommunicationViewModel: ObservableObject {
     // MARK: - Real-time Subscriptions
     
     private func setupRealtimeSubscription() {
-        realtimeTask = Swift.Task {
+        realtimeTask = _Concurrency.Task {
             do {
                 try await realtimeManager.subscribeToAll(
                     table: "communications",

@@ -1,6 +1,13 @@
 import Foundation
 import Supabase
 
+// Extension to make UUID conform to LosslessStringConvertible
+extension UUID: LosslessStringConvertible {
+    public init?(_ description: String) {
+        self.init(uuidString: description)
+    }
+}
+
 /// Base protocol for database operations with common CRUD methods
 protocol DatabaseServiceProtocol {
     associatedtype Entity: Codable & Identifiable where Entity.ID == UUID

@@ -131,7 +131,7 @@ struct SignUpView: View {
     }
     
     private func signUp() {
-        Task {
+        _Concurrency.Task {
             await authManager.signUp(
                 email: email,
                 password: password,

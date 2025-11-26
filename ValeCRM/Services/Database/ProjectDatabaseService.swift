@@ -49,7 +49,7 @@ final class ProjectDatabaseService: BaseDatabaseService<RehabProject> {
             let response: [RehabProject] = try await supabase.database
                 .from(tableName)
                 .select()
-                .in("status", values: [ProjectStatus.planning.rawValue, ProjectStatus.inProgress.rawValue])
+                .in("status", values: [ProjectStatus.planning.rawValue, ProjectStatus.active.rawValue])
                 .order("start_date", ascending: false)
                 .execute()
                 .value
@@ -91,7 +91,7 @@ final class ProjectDatabaseService: BaseDatabaseService<RehabProject> {
     func calculateTotalSpent() async throws -> Double {
         do {
             let projects = try await fetchAll()
-            return projects.reduce(0) { $0 + $1.actualCost }
+            return projects.reduce(0) { $0 + $1.totalSpent }
         } catch {
             throw SupabaseError.map(error)
         }

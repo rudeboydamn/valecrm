@@ -13,7 +13,7 @@ final class ClientViewModel: ObservableObject {
     private let databaseService = ClientDatabaseService.shared
     private let realtimeManager = RealtimeManager.shared
     private var cancellables = Set<AnyCancellable>()
-    private var realtimeTask: Swift.Task<Void, Never>?
+    private var realtimeTask: _Concurrency.Task<Void, Never>?
     
     var filteredClients: [Client] {
         clients.filter { client in
@@ -138,7 +138,7 @@ final class ClientViewModel: ObservableObject {
     // MARK: - Real-time Subscriptions
     
     private func setupRealtimeSubscription() {
-        realtimeTask = Swift.Task {
+        realtimeTask = _Concurrency.Task {
             do {
                 try await realtimeManager.subscribeToAll(
                     table: "clients",

@@ -47,7 +47,7 @@ struct LoginView: View {
                     }
 
                     Button(action: {
-                        Task {
+                        _Concurrency.Task {
                             await authManager.signIn(email: email, password: password)
                         }
                     }) {
@@ -68,7 +68,7 @@ struct LoginView: View {
                     .disabled(authManager.isLoading || email.isEmpty || password.isEmpty)
                     
                     Button(action: {
-                        Task {
+                        _Concurrency.Task {
                             do {
                                 try await authManager.authenticateWithBiometrics()
                             } catch {

@@ -15,7 +15,7 @@ final class TaskViewModel: ObservableObject {
     private let databaseService = TaskDatabaseService.shared
     private let realtimeManager = RealtimeManager.shared
     private var cancellables = Set<AnyCancellable>()
-    private var realtimeTask: Swift.Task<Void, Never>?
+    private var realtimeTask: _Concurrency.Task<Void, Never>?
     
     var filteredTasks: [Task] {
         tasks.filter { task in
@@ -158,7 +158,7 @@ final class TaskViewModel: ObservableObject {
     // MARK: - Real-time Subscriptions
     
     private func setupRealtimeSubscription() {
-        realtimeTask = Swift.Task {
+        realtimeTask = _Concurrency.Task {
             do {
                 try await realtimeManager.subscribeToAll(
                     table: "tasks",
