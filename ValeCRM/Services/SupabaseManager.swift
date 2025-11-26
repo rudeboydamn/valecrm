@@ -48,7 +48,7 @@ final class SupabaseManager {
         client.realtime
     }
     
-    var storage: StorageClient {
+    var storage: SupabaseStorageClient {
         client.storage
     }
     

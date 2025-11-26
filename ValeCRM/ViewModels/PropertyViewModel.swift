@@ -13,7 +13,7 @@ final class PropertyViewModel: ObservableObject {
     private let databaseService = PropertyDatabaseService.shared
     private let realtimeManager = RealtimeManager.shared
     private var cancellables = Set<AnyCancellable>()
-    private var realtimeTask: Task<Void, Never>?
+    private var realtimeTask: Swift.Task<Void, Never>?
     
     var filteredProperties: [Property] {
         properties.filter { property in
@@ -67,7 +67,7 @@ final class PropertyViewModel: ObservableObject {
     }
     
     func fetchProperties() {
-        Task {
+        Swift.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -87,7 +87,7 @@ final class PropertyViewModel: ObservableObject {
     }
     
     func createProperty(_ property: Property) {
-        Task {
+        Swift.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -109,7 +109,7 @@ final class PropertyViewModel: ObservableObject {
     }
     
     func updateProperty(_ property: Property) {
-        Task {
+        Swift.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -131,7 +131,7 @@ final class PropertyViewModel: ObservableObject {
     }
     
     func deleteProperty(_ property: Property) {
-        Task {
+        Swift.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -159,7 +159,7 @@ final class PropertyViewModel: ObservableObject {
     // MARK: - Real-time Subscriptions
     
     private func setupRealtimeSubscription() {
-        realtimeTask = Task {
+        realtimeTask = Swift.Task {
             do {
                 try await realtimeManager.subscribeToAll(
                     table: "properties",

@@ -51,7 +51,7 @@ enum TaskType: String, Codable, CaseIterable {
     }
 }
 
-struct Task: Identifiable, Codable {
+struct CRMTask: Identifiable, Codable {
     var id: String
     var createdAt: Date
     var updatedAt: Date
@@ -104,3 +104,6 @@ struct Task: Identifiable, Codable {
         case createdAt, updatedAt
     }
 }
+
+// Typealias for backward compatibility with existing code
+typealias Task = CRMTask

@@ -11,7 +11,7 @@ final class RehabProjectViewModel: ObservableObject {
     private let databaseService = ProjectDatabaseService.shared
     private let realtimeManager = RealtimeManager.shared
     private var cancellables = Set<AnyCancellable>()
-    private var realtimeTask: Task<Void, Never>?
+    private var realtimeTask: Swift.Task<Void, Never>?
     
     var filteredProjects: [RehabProject] {
         guard let status = selectedStatus else { return projects }
@@ -63,7 +63,7 @@ final class RehabProjectViewModel: ObservableObject {
     }
     
     func fetchProjects() {
-        Task {
+        Swift.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -83,7 +83,7 @@ final class RehabProjectViewModel: ObservableObject {
     }
     
     func createProject(_ project: RehabProject) {
-        Task {
+        Swift.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -105,7 +105,7 @@ final class RehabProjectViewModel: ObservableObject {
     }
     
     func updateProject(_ project: RehabProject) {
-        Task {
+        Swift.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -127,7 +127,7 @@ final class RehabProjectViewModel: ObservableObject {
     }
     
     func deleteProject(_ project: RehabProject) {
-        Task {
+        Swift.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -153,7 +153,7 @@ final class RehabProjectViewModel: ObservableObject {
     // MARK: - Real-time Subscriptions
     
     private func setupRealtimeSubscription() {
-        realtimeTask = Task {
+        realtimeTask = Swift.Task {
             do {
                 try await realtimeManager.subscribeToAll(
                     table: "projects",

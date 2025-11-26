@@ -17,13 +17,18 @@ protocol DatabaseServiceProtocol {
 }
 
 /// Base database service with common CRUD implementations
-class BaseDatabaseService<T: Codable & Identifiable> where T.ID == UUID {
+class BaseDatabaseService<T: Codable & Identifiable> where T.ID: LosslessStringConvertible & Codable {
     let tableName: String
     let supabase: SupabaseManager
     
     init(tableName: String, supabase: SupabaseManager = .shared) {
         self.tableName = tableName
         self.supabase = supabase
+    }
+    
+    /// Convert ID to string for database queries
+    private func idToString(_ id: T.ID) -> String {
+        return String(describing: id)
     }
     
     /// Fetch all records
@@ -43,12 +48,12 @@ class BaseDatabaseService<T: Codable & Identifiable> where T.ID == UUID {
     }
     
     /// Fetch record by ID
-    func fetch(id: UUID) async throws -> T? {
+    func fetch(id: T.ID) async throws -> T? {
         do {
             let response: [T] = try await supabase.database
                 .from(tableName)
                 .select()
-                .eq("id", value: id.uuidString)
+                .eq("id", value: idToString(id))
                 .limit(1)
                 .execute()
                 .value
@@ -85,7 +90,7 @@ class BaseDatabaseService<T: Codable & Identifiable> where T.ID == UUID {
             let response: [T] = try await supabase.database
                 .from(tableName)
                 .update(entity)
-                .eq("id", value: entity.id.uuidString)
+                .eq("id", value: idToString(entity.id))
                 .select()
                 .execute()
                 .value
@@ -101,12 +106,12 @@ class BaseDatabaseService<T: Codable & Identifiable> where T.ID == UUID {
     }
     
     /// Delete record by ID
-    func delete(id: UUID) async throws {
+    func delete(id: T.ID) async throws {
         do {
             try await supabase.database
                 .from(tableName)
                 .delete()
-                .eq("id", value: id.uuidString)
+                .eq("id", value: idToString(id))
                 .execute()
         } catch {
             throw SupabaseError.map(error)

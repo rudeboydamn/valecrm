@@ -7,16 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C1496DC92EC7857700F24972 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1496DC82EC7857700F24972 /* SwiftUI.framework */; };
-		C1496DCB2EC7858A00F24972 /* Combine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1496DCA2EC7858A00F24972 /* Combine.framework */; };
-		C1496DCD2EC7859A00F24972 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1496DCC2EC7859A00F24972 /* Foundation.framework */; };
-		C1496DCF2EC785AC00F24972 /* LocalAuthentication.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1496DCE2EC785AC00F24972 /* LocalAuthentication.framework */; };
-		C1496DD12EC785B900F24972 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1496DD02EC785B900F24972 /* Security.framework */; };
 		C1A16FF92ED661A10085B8AA /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = C1A16FF82ED661A10085B8AA /* Auth */; };
 		C1A16FFB2ED661A10085B8AA /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = C1A16FFA2ED661A10085B8AA /* Functions */; };
 		C1A16FFD2ED661A10085B8AA /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = C1A16FFC2ED661A10085B8AA /* PostgREST */; };
 		C1A16FFF2ED661A10085B8AA /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = C1A16FFE2ED661A10085B8AA /* Realtime */; };
 		C1A170012ED661A10085B8AA /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = C1A170002ED661A10085B8AA /* Storage */; };
+		C1A1707E2ED676800085B8AA /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = C1A1707D2ED676800085B8AA /* Auth */; };
+		C1A170802ED676800085B8AA /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = C1A1707F2ED676800085B8AA /* Functions */; };
+		C1A170822ED676800085B8AA /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = C1A170812ED676800085B8AA /* PostgREST */; };
+		C1A170842ED676800085B8AA /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = C1A170832ED676800085B8AA /* Realtime */; };
+		C1A170862ED676800085B8AA /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = C1A170852ED676800085B8AA /* Storage */; };
+		C1A170882ED676990085B8AA /* Auth in Frameworks */ = {isa = PBXBuildFile; productRef = C1A170872ED676990085B8AA /* Auth */; };
+		C1A1708A2ED676990085B8AA /* Functions in Frameworks */ = {isa = PBXBuildFile; productRef = C1A170892ED676990085B8AA /* Functions */; };
+		C1A1708C2ED676990085B8AA /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = C1A1708B2ED676990085B8AA /* PostgREST */; };
+		C1A1708E2ED676990085B8AA /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = C1A1708D2ED676990085B8AA /* Realtime */; };
+		C1A170902ED676990085B8AA /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = C1A1708F2ED676990085B8AA /* Storage */; };
+		C1B236A82ED6828C00D7F648 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = C1B236A72ED6828C00D7F648 /* Supabase */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,11 +46,6 @@
 		C1496D3B2EC7820800F24972 /* ValeCRM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ValeCRM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1496D482EC7820E00F24972 /* ValeCRMTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ValeCRMTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1496D522EC7820E00F24972 /* ValeCRMUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ValeCRMUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C1496DC82EC7857700F24972 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		C1496DCA2EC7858A00F24972 /* Combine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Combine.framework; path = System/Library/Frameworks/Combine.framework; sourceTree = SDKROOT; };
-		C1496DCC2EC7859A00F24972 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		C1496DCE2EC785AC00F24972 /* LocalAuthentication.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LocalAuthentication.framework; path = System/Library/Frameworks/LocalAuthentication.framework; sourceTree = SDKROOT; };
-		C1496DD02EC785B900F24972 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		C1C0FF002FC7A00100F24972 /* ValeCRM/Config.base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = ValeCRM/Config.base.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -85,15 +86,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C1A16FFF2ED661A10085B8AA /* Realtime in Frameworks */,
-				C1496DCF2EC785AC00F24972 /* LocalAuthentication.framework in Frameworks */,
-				C1496DD12EC785B900F24972 /* Security.framework in Frameworks */,
 				C1A16FF92ED661A10085B8AA /* Auth in Frameworks */,
-				C1496DCB2EC7858A00F24972 /* Combine.framework in Frameworks */,
+				C1B236A82ED6828C00D7F648 /* Supabase in Frameworks */,
 				C1A16FFD2ED661A10085B8AA /* PostgREST in Frameworks */,
 				C1A16FFB2ED661A10085B8AA /* Functions in Frameworks */,
-				C1496DCD2EC7859A00F24972 /* Foundation.framework in Frameworks */,
 				C1A170012ED661A10085B8AA /* Storage in Frameworks */,
-				C1496DC92EC7857700F24972 /* SwiftUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,6 +98,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1A170822ED676800085B8AA /* PostgREST in Frameworks */,
+				C1A170802ED676800085B8AA /* Functions in Frameworks */,
+				C1A1707E2ED676800085B8AA /* Auth in Frameworks */,
+				C1A170862ED676800085B8AA /* Storage in Frameworks */,
+				C1A170842ED676800085B8AA /* Realtime in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +110,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1A1708C2ED676990085B8AA /* PostgREST in Frameworks */,
+				C1A1708A2ED676990085B8AA /* Functions in Frameworks */,
+				C1A170882ED676990085B8AA /* Auth in Frameworks */,
+				C1A170902ED676990085B8AA /* Storage in Frameworks */,
+				C1A1708E2ED676990085B8AA /* Realtime in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,11 +146,6 @@
 		C1496DC72EC7857600F24972 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C1496DD02EC785B900F24972 /* Security.framework */,
-				C1496DCE2EC785AC00F24972 /* LocalAuthentication.framework */,
-				C1496DCC2EC7859A00F24972 /* Foundation.framework */,
-				C1496DCA2EC7858A00F24972 /* Combine.framework */,
-				C1496DC82EC7857700F24972 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -181,6 +183,7 @@
 				C1A16FFC2ED661A10085B8AA /* PostgREST */,
 				C1A16FFE2ED661A10085B8AA /* Realtime */,
 				C1A170002ED661A10085B8AA /* Storage */,
+				C1B236A72ED6828C00D7F648 /* Supabase */,
 			);
 			productName = ValeCRM;
 			productReference = C1496D3B2EC7820800F24972 /* ValeCRM.app */;
@@ -204,6 +207,11 @@
 			);
 			name = ValeCRMTests;
 			packageProductDependencies = (
+				C1A1707D2ED676800085B8AA /* Auth */,
+				C1A1707F2ED676800085B8AA /* Functions */,
+				C1A170812ED676800085B8AA /* PostgREST */,
+				C1A170832ED676800085B8AA /* Realtime */,
+				C1A170852ED676800085B8AA /* Storage */,
 			);
 			productName = ValeCRMTests;
 			productReference = C1496D482EC7820E00F24972 /* ValeCRMTests.xctest */;
@@ -227,6 +235,11 @@
 			);
 			name = ValeCRMUITests;
 			packageProductDependencies = (
+				C1A170872ED676990085B8AA /* Auth */,
+				C1A170892ED676990085B8AA /* Functions */,
+				C1A1708B2ED676990085B8AA /* PostgREST */,
+				C1A1708D2ED676990085B8AA /* Realtime */,
+				C1A1708F2ED676990085B8AA /* Storage */,
 			);
 			productName = ValeCRMUITests;
 			productReference = C1496D522EC7820E00F24972 /* ValeCRMUITests.xctest */;
@@ -265,7 +278,6 @@
 			mainGroup = C1496D322EC7820800F24972;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				C1496DD42EC7A39500F24972 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				C1A16FF72ED661A10085B8AA /* XCRemoteSwiftPackageReference "supabase-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -673,14 +685,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C1496DD42EC7A39500F24972 /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/apple/swift-algorithms.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.1;
-			};
-		};
 		C1A16FF72ED661A10085B8AA /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/supabase/supabase-swift";
@@ -716,6 +720,61 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C1A16FF72ED661A10085B8AA /* XCRemoteSwiftPackageReference "supabase-swift" */;
 			productName = Storage;
+		};
+		C1A1707D2ED676800085B8AA /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1A16FF72ED661A10085B8AA /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		C1A1707F2ED676800085B8AA /* Functions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1A16FF72ED661A10085B8AA /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Functions;
+		};
+		C1A170812ED676800085B8AA /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1A16FF72ED661A10085B8AA /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		C1A170832ED676800085B8AA /* Realtime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1A16FF72ED661A10085B8AA /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Realtime;
+		};
+		C1A170852ED676800085B8AA /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1A16FF72ED661A10085B8AA /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Storage;
+		};
+		C1A170872ED676990085B8AA /* Auth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1A16FF72ED661A10085B8AA /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Auth;
+		};
+		C1A170892ED676990085B8AA /* Functions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1A16FF72ED661A10085B8AA /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Functions;
+		};
+		C1A1708B2ED676990085B8AA /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1A16FF72ED661A10085B8AA /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		C1A1708D2ED676990085B8AA /* Realtime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1A16FF72ED661A10085B8AA /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Realtime;
+		};
+		C1A1708F2ED676990085B8AA /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1A16FF72ED661A10085B8AA /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Storage;
+		};
+		C1B236A72ED6828C00D7F648 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1A16FF72ED661A10085B8AA /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

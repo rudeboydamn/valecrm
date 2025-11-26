@@ -68,7 +68,7 @@ final class AuthManager: ObservableObject {
     @Published var errorMessage: String?
     
     private let supabase = SupabaseManager.shared
-    private var authStateTask: Task<Void, Never>?
+    private var authStateTask: Swift.Task<Void, Never>?
     private var cancellables = Set<AnyCancellable>()
     
     init() {
@@ -121,9 +121,7 @@ final class AuthManager: ObservableObject {
                 password: password
             )
             
-            guard let user = authResponse.user else {
-                throw SupabaseError.authenticationFailed("No user returned")
-            }
+            let user = authResponse.user
             
             // Create user profile in database
             let userProfile = User(
@@ -200,7 +198,7 @@ final class AuthManager: ObservableObject {
     
     /// Setup listener for auth state changes
     private func setupAuthStateListener() {
-        authStateTask = Task {
+        authStateTask = Swift.Task {
             for await state in await supabase.auth.authStateChanges {
                 await handleAuthStateChange(state.event, session: state.session)
             }
@@ -235,7 +233,7 @@ final class AuthManager: ObservableObject {
     
     /// Check initial auth status on app launch
     private func checkInitialAuthStatus() {
-        Task {
+        Swift.Task {
             do {
                 let session = try await supabase.auth.session
                 

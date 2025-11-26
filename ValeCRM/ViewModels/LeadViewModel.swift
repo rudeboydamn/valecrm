@@ -15,7 +15,7 @@ final class LeadViewModel: ObservableObject {
     private let realtimeManager = RealtimeManager.shared
     private let hubspotService = HubSpotService.shared
     private var cancellables = Set<AnyCancellable>()
-    private var realtimeTask: Task<Void, Never>?
+    private var realtimeTask: Swift.Task<Void, Never>?
     
     var filteredLeads: [Lead] {
         leads.filter { lead in
@@ -154,7 +154,7 @@ final class LeadViewModel: ObservableObject {
     // MARK: - Real-time Subscriptions
     
     private func setupRealtimeSubscription() {
-        realtimeTask = Task {
+        realtimeTask = Swift.Task {
             do {
                 try await realtimeManager.subscribeToAll(
                     table: "leads",

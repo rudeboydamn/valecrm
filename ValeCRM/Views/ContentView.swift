@@ -281,7 +281,7 @@ struct SettingsView: View {
 
 // Placeholder views for Communications, Documents, and Reports
 struct CommunicationsView: View {
-    @StateObject private var viewModel = CommunicationViewModel(networkService: NetworkService.shared)
+    @StateObject private var viewModel = CommunicationViewModel()
     
     var body: some View {
         List {

@@ -2,7 +2,7 @@ import Foundation
 import Supabase
 
 /// Database service for Task operations
-final class TaskDatabaseService: BaseDatabaseService<Task> {
+final class TaskDatabaseService: BaseDatabaseService<CRMTask> {
     static let shared = TaskDatabaseService()
     
     private init() {
@@ -10,9 +10,9 @@ final class TaskDatabaseService: BaseDatabaseService<Task> {
     }
     
     /// Search tasks by title or description
-    func search(query: String) async throws -> [Task] {
+    func search(query: String) async throws -> [CRMTask] {
         do {
-            let response: [Task] = try await supabase.database
+            let response: [CRMTask] = try await supabase.database
                 .from(tableName)
                 .select()
                 .or("title.ilike.%\(query)%,description.ilike.%\(query)%")
@@ -27,9 +27,9 @@ final class TaskDatabaseService: BaseDatabaseService<Task> {
     }
     
     /// Filter tasks by status
-    func fetchByStatus(_ status: TaskStatus) async throws -> [Task] {
+    func fetchByStatus(_ status: TaskStatus) async throws -> [CRMTask] {
         do {
-            let response: [Task] = try await supabase.database
+            let response: [CRMTask] = try await supabase.database
                 .from(tableName)
                 .select()
                 .eq("status", value: status.rawValue)
@@ -44,9 +44,9 @@ final class TaskDatabaseService: BaseDatabaseService<Task> {
     }
     
     /// Filter tasks by priority
-    func fetchByPriority(_ priority: TaskPriority) async throws -> [Task] {
+    func fetchByPriority(_ priority: TaskPriority) async throws -> [CRMTask] {
         do {
-            let response: [Task] = try await supabase.database
+            let response: [CRMTask] = try await supabase.database
                 .from(tableName)
                 .select()
                 .eq("priority", value: priority.rawValue)
@@ -61,9 +61,9 @@ final class TaskDatabaseService: BaseDatabaseService<Task> {
     }
     
     /// Fetch tasks by assigned user
-    func fetchByAssignedUser(userId: String) async throws -> [Task] {
+    func fetchByAssignedUser(userId: String) async throws -> [CRMTask] {
         do {
-            let response: [Task] = try await supabase.database
+            let response: [CRMTask] = try await supabase.database
                 .from(tableName)
                 .select()
                 .eq("assigned_to", value: userId)
@@ -78,12 +78,12 @@ final class TaskDatabaseService: BaseDatabaseService<Task> {
     }
     
     /// Fetch overdue tasks
-    func fetchOverdue() async throws -> [Task] {
+    func fetchOverdue() async throws -> [CRMTask] {
         do {
             let formatter = ISO8601DateFormatter()
             let now = formatter.string(from: Date())
             
-            let response: [Task] = try await supabase.database
+            let response: [CRMTask] = try await supabase.database
                 .from(tableName)
                 .select()
                 .lt("due_date", value: now)
@@ -99,13 +99,13 @@ final class TaskDatabaseService: BaseDatabaseService<Task> {
     }
     
     /// Fetch upcoming tasks (next 7 days)
-    func fetchUpcoming() async throws -> [Task] {
+    func fetchUpcoming() async throws -> [CRMTask] {
         do {
             let formatter = ISO8601DateFormatter()
             let now = Date()
             let nextWeek = Calendar.current.date(byAdding: .day, value: 7, to: now)!
             
-            let response: [Task] = try await supabase.database
+            let response: [CRMTask] = try await supabase.database
                 .from(tableName)
                 .select()
                 .gte("due_date", value: formatter.string(from: now))
