@@ -14,19 +14,18 @@ final class DashboardViewModel: ObservableObject {
     init() {}
     
     func fetchMetrics() {
-        Task {
+        _Concurrency.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
-                // Fetch dashboard metrics from database
-                // This may require a custom RPC function in Supabase
-                let response: ReportDashboardMetrics = try await supabase.database
+                // Fetch dashboard metrics via RPC
+                let query = try supabase.client
                     .rpc("get_dashboard_metrics")
-                    .execute()
-                    .value
+                let response: PostgrestResponse<ReportDashboardMetrics> = try await query.execute()
+                let value = response.value
                 
                 await MainActor.run {
-                    self.metrics = response
+                    self.metrics = value
                     self.lastRefresh = Date()
                     self.isLoading = false
                     self.errorMessage = nil

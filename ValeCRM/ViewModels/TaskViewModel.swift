@@ -57,7 +57,7 @@ final class TaskViewModel: ObservableObject {
     }
     
     func fetchTasks() {
-        Task {
+        _Concurrency.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -77,7 +77,7 @@ final class TaskViewModel: ObservableObject {
     }
     
     func createTask(_ task: Task) {
-        Task {
+        _Concurrency.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -99,7 +99,7 @@ final class TaskViewModel: ObservableObject {
     }
     
     func updateTask(_ task: Task) {
-        Task {
+        _Concurrency.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -121,7 +121,7 @@ final class TaskViewModel: ObservableObject {
     }
     
     func deleteTask(_ task: Task) {
-        Task {
+        _Concurrency.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -176,9 +176,7 @@ final class TaskViewModel: ObservableObject {
                     },
                     onDelete: { [weak self] (taskId: String) in
                         guard let self = self else { return }
-                        if let uuid = UUID(uuidString: taskId) {
-                            self.tasks.removeAll { $0.id == uuid }
-                        }
+                        self.tasks.removeAll { $0.id == taskId }
                     }
                 )
             } catch {

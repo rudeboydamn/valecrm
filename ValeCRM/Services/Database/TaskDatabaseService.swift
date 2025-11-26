@@ -12,15 +12,14 @@ final class TaskDatabaseService: BaseDatabaseService<CRMTask> {
     /// Search tasks by title or description
     func search(query: String) async throws -> [CRMTask] {
         do {
-            let response: [CRMTask] = try await supabase.database
-                .from(tableName)
+            let queryBuilder = supabase.from(tableName)
                 .select()
                 .or("title.ilike.%\(query)%,description.ilike.%\(query)%")
                 .order("due_date", ascending: true)
-                .execute()
-                .value
+            let response: PostgrestResponse<[CRMTask]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -29,15 +28,14 @@ final class TaskDatabaseService: BaseDatabaseService<CRMTask> {
     /// Filter tasks by status
     func fetchByStatus(_ status: TaskStatus) async throws -> [CRMTask] {
         do {
-            let response: [CRMTask] = try await supabase.database
-                .from(tableName)
+            let queryBuilder = supabase.from(tableName)
                 .select()
                 .eq("status", value: status.rawValue)
                 .order("due_date", ascending: true)
-                .execute()
-                .value
+            let response: PostgrestResponse<[CRMTask]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -46,15 +44,14 @@ final class TaskDatabaseService: BaseDatabaseService<CRMTask> {
     /// Filter tasks by priority
     func fetchByPriority(_ priority: TaskPriority) async throws -> [CRMTask] {
         do {
-            let response: [CRMTask] = try await supabase.database
-                .from(tableName)
+            let queryBuilder = supabase.from(tableName)
                 .select()
                 .eq("priority", value: priority.rawValue)
                 .order("due_date", ascending: true)
-                .execute()
-                .value
+            let response: PostgrestResponse<[CRMTask]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -63,15 +60,14 @@ final class TaskDatabaseService: BaseDatabaseService<CRMTask> {
     /// Fetch tasks by assigned user
     func fetchByAssignedUser(userId: String) async throws -> [CRMTask] {
         do {
-            let response: [CRMTask] = try await supabase.database
-                .from(tableName)
+            let queryBuilder = supabase.from(tableName)
                 .select()
                 .eq("assigned_to", value: userId)
                 .order("due_date", ascending: true)
-                .execute()
-                .value
+            let response: PostgrestResponse<[CRMTask]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -83,16 +79,15 @@ final class TaskDatabaseService: BaseDatabaseService<CRMTask> {
             let formatter = ISO8601DateFormatter()
             let now = formatter.string(from: Date())
             
-            let response: [CRMTask] = try await supabase.database
-                .from(tableName)
+            let queryBuilder = supabase.from(tableName)
                 .select()
                 .lt("due_date", value: now)
                 .neq("status", value: TaskStatus.completed.rawValue)
                 .order("due_date", ascending: true)
-                .execute()
-                .value
+            let response: PostgrestResponse<[CRMTask]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -105,17 +100,16 @@ final class TaskDatabaseService: BaseDatabaseService<CRMTask> {
             let now = Date()
             let nextWeek = Calendar.current.date(byAdding: .day, value: 7, to: now)!
             
-            let response: [CRMTask] = try await supabase.database
-                .from(tableName)
+            let queryBuilder = supabase.from(tableName)
                 .select()
                 .gte("due_date", value: formatter.string(from: now))
                 .lte("due_date", value: formatter.string(from: nextWeek))
                 .neq("status", value: TaskStatus.completed.rawValue)
                 .order("due_date", ascending: true)
-                .execute()
-                .value
+            let response: PostgrestResponse<[CRMTask]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }

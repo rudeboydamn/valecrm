@@ -49,7 +49,7 @@ final class LeadViewModel: ObservableObject {
     }
     
     func fetchLeads() {
-        Task {
+        _Concurrency.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -69,7 +69,7 @@ final class LeadViewModel: ObservableObject {
     }
     
     func createLead(_ lead: Lead) {
-        Task {
+        _Concurrency.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -96,7 +96,7 @@ final class LeadViewModel: ObservableObject {
     }
     
     func updateLead(_ lead: Lead) {
-        Task {
+        _Concurrency.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -123,7 +123,7 @@ final class LeadViewModel: ObservableObject {
     }
     
     func deleteLead(_ lead: Lead) {
-        Task {
+        _Concurrency.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -209,7 +209,7 @@ final class LeadViewModel: ObservableObject {
             return
         }
         
-        Task {
+        _Concurrency.Task {
             await MainActor.run { self.isLoading = true }
             
             do {

@@ -12,15 +12,14 @@ final class DocumentDatabaseService: BaseDatabaseService<Document> {
     /// Search documents by name or description
     func search(query: String) async throws -> [Document] {
         do {
-            let response: [Document] = try await supabase.database
-                .from(tableName)
+            let queryBuilder = supabase.from(tableName)
                 .select()
                 .or("document_name.ilike.%\(query)%,description.ilike.%\(query)%")
                 .order("uploaded_at", ascending: false)
-                .execute()
-                .value
+            let response: PostgrestResponse<[Document]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -29,15 +28,14 @@ final class DocumentDatabaseService: BaseDatabaseService<Document> {
     /// Filter documents by type
     func fetchByType(_ type: DocumentType) async throws -> [Document] {
         do {
-            let response: [Document] = try await supabase.database
-                .from(tableName)
+            let queryBuilder = supabase.from(tableName)
                 .select()
                 .eq("document_type", value: type.rawValue)
                 .order("uploaded_at", ascending: false)
-                .execute()
-                .value
+            let response: PostgrestResponse<[Document]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -46,16 +44,15 @@ final class DocumentDatabaseService: BaseDatabaseService<Document> {
     /// Fetch documents by related entity
     func fetchByEntity(entityType: String, entityId: String) async throws -> [Document] {
         do {
-            let response: [Document] = try await supabase.database
-                .from(tableName)
+            let queryBuilder = supabase.from(tableName)
                 .select()
                 .eq("related_entity_type", value: entityType)
                 .eq("related_entity_id", value: entityId)
                 .order("uploaded_at", ascending: false)
-                .execute()
-                .value
+            let response: PostgrestResponse<[Document]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -69,8 +66,8 @@ final class DocumentDatabaseService: BaseDatabaseService<Document> {
             try await supabase.storage
                 .from("documents")
                 .upload(
-                    path: path,
-                    file: data,
+                    path,
+                    data: data,
                     options: FileOptions(
                         contentType: mimeType,
                         upsert: false

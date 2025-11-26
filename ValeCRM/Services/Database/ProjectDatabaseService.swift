@@ -12,15 +12,14 @@ final class ProjectDatabaseService: BaseDatabaseService<RehabProject> {
     /// Search projects by name or property address
     func search(query: String) async throws -> [RehabProject] {
         do {
-            let response: [RehabProject] = try await supabase.database
-                .from(tableName)
+            let queryBuilder = supabase.from(tableName)
                 .select()
                 .or("project_name.ilike.%\(query)%,property_address.ilike.%\(query)%")
                 .order("created_at", ascending: false)
-                .execute()
-                .value
+            let response: PostgrestResponse<[RehabProject]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -29,15 +28,14 @@ final class ProjectDatabaseService: BaseDatabaseService<RehabProject> {
     /// Filter projects by status
     func fetchByStatus(_ status: ProjectStatus) async throws -> [RehabProject] {
         do {
-            let response: [RehabProject] = try await supabase.database
-                .from(tableName)
+            let queryBuilder = supabase.from(tableName)
                 .select()
                 .eq("status", value: status.rawValue)
                 .order("start_date", ascending: false)
-                .execute()
-                .value
+            let response: PostgrestResponse<[RehabProject]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -46,15 +44,14 @@ final class ProjectDatabaseService: BaseDatabaseService<RehabProject> {
     /// Fetch active projects
     func fetchActive() async throws -> [RehabProject] {
         do {
-            let response: [RehabProject] = try await supabase.database
-                .from(tableName)
+            let queryBuilder = supabase.from(tableName)
                 .select()
                 .in("status", values: [ProjectStatus.planning.rawValue, ProjectStatus.active.rawValue])
                 .order("start_date", ascending: false)
-                .execute()
-                .value
+            let response: PostgrestResponse<[RehabProject]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -63,15 +60,14 @@ final class ProjectDatabaseService: BaseDatabaseService<RehabProject> {
     /// Filter projects by property ID
     func fetchByProperty(propertyId: String) async throws -> [RehabProject] {
         do {
-            let response: [RehabProject] = try await supabase.database
-                .from(tableName)
+            let queryBuilder = supabase.from(tableName)
                 .select()
                 .eq("property_id", value: propertyId)
                 .order("start_date", ascending: false)
-                .execute()
-                .value
+            let response: PostgrestResponse<[RehabProject]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }

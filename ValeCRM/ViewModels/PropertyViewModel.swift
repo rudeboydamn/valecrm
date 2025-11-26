@@ -177,9 +177,7 @@ final class PropertyViewModel: ObservableObject {
                     },
                     onDelete: { [weak self] (propertyId: String) in
                         guard let self = self else { return }
-                        if let uuid = UUID(uuidString: propertyId) {
-                            self.properties.removeAll { $0.id == uuid }
-                        }
+                        self.properties.removeAll { $0.id == propertyId }
                     }
                 )
             } catch {

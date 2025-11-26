@@ -12,15 +12,15 @@ final class LeadDatabaseService: BaseDatabaseService<Lead> {
     /// Search leads by name, email, or address
     func search(query: String) async throws -> [Lead] {
         do {
-            let response: [Lead] = try await supabase.database
+            let queryBuilder = supabase.client
                 .from(tableName)
                 .select()
                 .or("first_name.ilike.%\(query)%,last_name.ilike.%\(query)%,email.ilike.%\(query)%,property_address.ilike.%\(query)%")
                 .order("created_at", ascending: false)
-                .execute()
-                .value
+            let response: PostgrestResponse<[Lead]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -29,15 +29,15 @@ final class LeadDatabaseService: BaseDatabaseService<Lead> {
     /// Filter leads by status
     func fetchByStatus(_ status: LeadStatus) async throws -> [Lead] {
         do {
-            let response: [Lead] = try await supabase.database
+            let queryBuilder = supabase.client
                 .from(tableName)
                 .select()
                 .eq("status", value: status.rawValue)
                 .order("created_at", ascending: false)
-                .execute()
-                .value
+            let response: PostgrestResponse<[Lead]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -46,15 +46,15 @@ final class LeadDatabaseService: BaseDatabaseService<Lead> {
     /// Filter leads by priority
     func fetchByPriority(_ priority: LeadPriority) async throws -> [Lead] {
         do {
-            let response: [Lead] = try await supabase.database
+            let queryBuilder = supabase.client
                 .from(tableName)
                 .select()
                 .eq("priority", value: priority.rawValue)
                 .order("created_at", ascending: false)
-                .execute()
-                .value
+            let response: PostgrestResponse<[Lead]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -63,15 +63,15 @@ final class LeadDatabaseService: BaseDatabaseService<Lead> {
     /// Filter leads by source
     func fetchBySource(_ source: LeadSource) async throws -> [Lead] {
         do {
-            let response: [Lead] = try await supabase.database
+            let queryBuilder = supabase.client
                 .from(tableName)
                 .select()
                 .eq("source", value: source.rawValue)
                 .order("created_at", ascending: false)
-                .execute()
-                .value
+            let response: PostgrestResponse<[Lead]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -82,16 +82,16 @@ final class LeadDatabaseService: BaseDatabaseService<Lead> {
         do {
             let formatter = ISO8601DateFormatter()
             
-            let response: [Lead] = try await supabase.database
+            let queryBuilder = supabase.client
                 .from(tableName)
                 .select()
                 .gte("created_at", value: formatter.string(from: startDate))
                 .lte("created_at", value: formatter.string(from: endDate))
                 .order("created_at", ascending: false)
-                .execute()
-                .value
+            let response: PostgrestResponse<[Lead]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -100,15 +100,15 @@ final class LeadDatabaseService: BaseDatabaseService<Lead> {
     /// Fetch leads with HubSpot ID
     func fetchWithHubSpotId() async throws -> [Lead] {
         do {
-            let response: [Lead] = try await supabase.database
+            let queryBuilder = supabase.client
                 .from(tableName)
                 .select()
                 .not("hubspot_id", operator: .is, value: "null")
                 .order("created_at", ascending: false)
-                .execute()
-                .value
+            let response: PostgrestResponse<[Lead]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }

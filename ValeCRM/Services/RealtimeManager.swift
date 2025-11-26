@@ -21,7 +21,7 @@ final class RealtimeManager: ObservableObject {
     static let shared = RealtimeManager()
     
     private let supabase = SupabaseManager.shared
-    private var channels: [String: RealtimeChannel] = [:]
+    private var channels: [String: RealtimeChannelV2] = [:]
     private var subscriptions: Set<AnyCancellable> = []
     
     @Published var connectionStatus: RealtimeConnectionStatus = .disconnected
@@ -36,9 +36,9 @@ final class RealtimeManager: ObservableObject {
     /// Setup connection status listener
     private func setupConnectionListener() {
         // Monitor realtime connection status
-        Task {
-            // Connect to realtime
-            await supabase.realtime.connect()
+        _Concurrency.Task {
+            // Connect to realtime using Realtime v2 client
+            await supabase.realtimeClient.connect()
             
             await MainActor.run {
                 self.isConnected = true
@@ -50,7 +50,7 @@ final class RealtimeManager: ObservableObject {
     /// Disconnect from realtime
     func disconnect() async {
         for (_, channel) in channels {
-            await supabase.realtime.removeChannel(channel)
+            await supabase.realtimeClient.removeChannel(channel)
         }
         channels.removeAll()
         
@@ -73,30 +73,28 @@ final class RealtimeManager: ObservableObject {
         
         // Remove existing channel if present
         if let existingChannel = channels[channelName] {
-            await supabase.realtime.removeChannel(existingChannel)
+            await supabase.realtimeClient.removeChannel(existingChannel)
         }
         
-        // Create new channel
-        let channel = await supabase.realtime.channel(channelName)
+        // Create new channel using Realtime v2
+        let channel = supabase.realtimeClient.channel(channelName)
         
         // Subscribe to table changes
-        let changeStream = await channel.postgresChange(
+        let changeStream = channel.postgresChange(
             InsertAction.self,
             schema: "public",
-            table: table,
-            filter: filter
+            table: table
         )
         
         // Listen for changes
-        Task {
+        _Concurrency.Task {
             for await change in changeStream {
                 await handleChange(change, onChange: onChange)
             }
         }
         
         // Subscribe to channel
-        await channel.subscribe()
-        
+        _ = try await channel.subscribeWithError()
         channels[channelName] = channel
     }
     
@@ -111,23 +109,23 @@ final class RealtimeManager: ObservableObject {
         
         // Remove existing channel if present
         if let existingChannel = channels[channelName] {
-            await supabase.realtime.removeChannel(existingChannel)
+            await supabase.realtimeClient.removeChannel(existingChannel)
         }
         
-        // Create new channel
-        let channel = await supabase.realtime.channel(channelName)
+        // Create new channel using Realtime v2
+        let channel = supabase.realtimeClient.channel(channelName)
         
         // Subscribe to inserts
         if let onInsert = onInsert {
-            let insertStream = await channel.postgresChange(
+            let insertStream = channel.postgresChange(
                 InsertAction.self,
                 schema: "public",
                 table: table
             )
             
-            Task {
+            _Concurrency.Task {
                 for await insert in insertStream {
-                    if let record = try? insert.decodeRecord(as: T.self) {
+                    if let record = try? insert.decodeRecord(as: T.self, decoder: JSONDecoder()) {
                         await MainActor.run {
                             onInsert(record)
                         }
@@ -138,15 +136,15 @@ final class RealtimeManager: ObservableObject {
         
         // Subscribe to updates
         if let onUpdate = onUpdate {
-            let updateStream = await channel.postgresChange(
+            let updateStream = channel.postgresChange(
                 UpdateAction.self,
                 schema: "public",
                 table: table
             )
             
-            Task {
+            _Concurrency.Task {
                 for await update in updateStream {
-                    if let record = try? update.decodeRecord(as: T.self) {
+                    if let record = try? update.decodeRecord(as: T.self, decoder: JSONDecoder()) {
                         await MainActor.run {
                             onUpdate(record)
                         }
@@ -157,15 +155,15 @@ final class RealtimeManager: ObservableObject {
         
         // Subscribe to deletes
         if let onDelete = onDelete {
-            let deleteStream = await channel.postgresChange(
+            let deleteStream = channel.postgresChange(
                 DeleteAction.self,
                 schema: "public",
                 table: table
             )
             
-            Task {
+            _Concurrency.Task {
                 for await delete in deleteStream {
-                    if let oldRecord = try? delete.decodeOldRecord(as: T.self),
+                    if let oldRecord = try? delete.decodeOldRecord(as: T.self, decoder: JSONDecoder()),
                        let id = (oldRecord as? any Identifiable)?.id as? String {
                         await MainActor.run {
                             onDelete(id)
@@ -176,8 +174,7 @@ final class RealtimeManager: ObservableObject {
         }
         
         // Subscribe to channel
-        await channel.subscribe()
-        
+        _ = try await channel.subscribeWithError()
         channels[channelName] = channel
     }
     
@@ -186,7 +183,7 @@ final class RealtimeManager: ObservableObject {
         let channelName = generateChannelName(table: table, filter: filter)
         
         if let channel = channels[channelName] {
-            await supabase.realtime.removeChannel(channel)
+            await supabase.realtimeClient.removeChannel(channel)
             channels.removeValue(forKey: channelName)
         }
     }
@@ -194,7 +191,7 @@ final class RealtimeManager: ObservableObject {
     /// Unsubscribe from all channels
     func unsubscribeAll() async {
         for (_, channel) in channels {
-            await supabase.realtime.removeChannel(channel)
+            await supabase.realtimeClient.removeChannel(channel)
         }
         channels.removeAll()
     }
@@ -215,20 +212,20 @@ final class RealtimeManager: ObservableObject {
         // Parse change event and call onChange handler
         // This is a simplified version - actual implementation depends on Supabase SDK
         if let insertChange = change as? InsertAction {
-            if let record = try? insertChange.decodeRecord(as: T.self) {
+            if let record = try? insertChange.decodeRecord(as: T.self, decoder: JSONDecoder()) {
                 await MainActor.run {
                     onChange(RealtimeChange(event: .insert, record: record, oldRecord: nil))
                 }
             }
         } else if let updateChange = change as? UpdateAction {
-            if let record = try? updateChange.decodeRecord(as: T.self),
-               let oldRecord = try? updateChange.decodeOldRecord(as: T.self) {
+            if let record = try? updateChange.decodeRecord(as: T.self, decoder: JSONDecoder()),
+               let oldRecord = try? updateChange.decodeOldRecord(as: T.self, decoder: JSONDecoder()) {
                 await MainActor.run {
                     onChange(RealtimeChange(event: .update, record: record, oldRecord: oldRecord))
                 }
             }
         } else if let deleteChange = change as? DeleteAction {
-            if let oldRecord = try? deleteChange.decodeOldRecord(as: T.self) {
+            if let oldRecord = try? deleteChange.decodeOldRecord(as: T.self, decoder: JSONDecoder()) {
                 await MainActor.run {
                     onChange(RealtimeChange(event: .delete, record: nil, oldRecord: oldRecord))
                 }

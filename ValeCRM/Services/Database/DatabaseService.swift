@@ -1,13 +1,6 @@
 import Foundation
 import Supabase
 
-// Extension to make UUID conform to LosslessStringConvertible
-extension UUID: LosslessStringConvertible {
-    public init?(_ description: String) {
-        self.init(uuidString: description)
-    }
-}
-
 /// Base protocol for database operations with common CRUD methods
 protocol DatabaseServiceProtocol {
     associatedtype Entity: Codable & Identifiable where Entity.ID == UUID
@@ -24,7 +17,7 @@ protocol DatabaseServiceProtocol {
 }
 
 /// Base database service with common CRUD implementations
-class BaseDatabaseService<T: Codable & Identifiable> where T.ID: LosslessStringConvertible & Codable {
+class BaseDatabaseService<T: Codable & Identifiable> where T.ID: CustomStringConvertible & Codable {
     let tableName: String
     let supabase: SupabaseManager
     
@@ -35,20 +28,20 @@ class BaseDatabaseService<T: Codable & Identifiable> where T.ID: LosslessStringC
     
     /// Convert ID to string for database queries
     private func idToString(_ id: T.ID) -> String {
-        return String(describing: id)
+        String(describing: id)
     }
     
     /// Fetch all records
     func fetchAll() async throws -> [T] {
         do {
-            let response: [T] = try await supabase.database
+            let query = supabase.client
                 .from(tableName)
                 .select()
                 .order("created_at", ascending: false)
-                .execute()
-                .value
+            let response: PostgrestResponse<[T]> = try await query.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -57,15 +50,15 @@ class BaseDatabaseService<T: Codable & Identifiable> where T.ID: LosslessStringC
     /// Fetch record by ID
     func fetch(id: T.ID) async throws -> T? {
         do {
-            let response: [T] = try await supabase.database
+            let query = supabase.client
                 .from(tableName)
                 .select()
                 .eq("id", value: idToString(id))
                 .limit(1)
-                .execute()
-                .value
+            let response: PostgrestResponse<[T]> = try await query.execute()
+            let value = response.value
             
-            return response.first
+            return value.first
         } catch {
             throw SupabaseError.map(error)
         }
@@ -74,14 +67,14 @@ class BaseDatabaseService<T: Codable & Identifiable> where T.ID: LosslessStringC
     /// Create new record
     func create(_ entity: T) async throws -> T {
         do {
-            let response: [T] = try await supabase.database
+            let query = try supabase.client
                 .from(tableName)
                 .insert(entity)
                 .select()
-                .execute()
-                .value
+            let response: PostgrestResponse<[T]> = try await query.execute()
+            let value = response.value
             
-            guard let created = response.first else {
+            guard let created = value.first else {
                 throw SupabaseError.databaseError("Failed to create record")
             }
             
@@ -94,15 +87,15 @@ class BaseDatabaseService<T: Codable & Identifiable> where T.ID: LosslessStringC
     /// Update existing record
     func update(_ entity: T) async throws -> T {
         do {
-            let response: [T] = try await supabase.database
+            let query = try supabase.client
                 .from(tableName)
                 .update(entity)
                 .eq("id", value: idToString(entity.id))
                 .select()
-                .execute()
-                .value
+            let response: PostgrestResponse<[T]> = try await query.execute()
+            let value = response.value
             
-            guard let updated = response.first else {
+            guard let updated = value.first else {
                 throw SupabaseError.databaseError("Failed to update record")
             }
             
@@ -115,11 +108,11 @@ class BaseDatabaseService<T: Codable & Identifiable> where T.ID: LosslessStringC
     /// Delete record by ID
     func delete(id: T.ID) async throws {
         do {
-            try await supabase.database
+            let query = supabase.client
                 .from(tableName)
                 .delete()
                 .eq("id", value: idToString(id))
-                .execute()
+            _ = try await query.execute()
         } catch {
             throw SupabaseError.map(error)
         }
@@ -128,15 +121,15 @@ class BaseDatabaseService<T: Codable & Identifiable> where T.ID: LosslessStringC
     /// Fetch with pagination
     func fetchPaginated(limit: Int = 20, offset: Int = 0) async throws -> [T] {
         do {
-            let response: [T] = try await supabase.database
+            let query = supabase.client
                 .from(tableName)
                 .select()
                 .order("created_at", ascending: false)
                 .range(from: offset, to: offset + limit - 1)
-                .execute()
-                .value
+            let response: PostgrestResponse<[T]> = try await query.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -145,10 +138,10 @@ class BaseDatabaseService<T: Codable & Identifiable> where T.ID: LosslessStringC
     /// Count total records
     func count() async throws -> Int {
         do {
-            let response = try await supabase.database
+            let query = supabase.client
                 .from(tableName)
                 .select("*", head: true, count: .exact)
-                .execute()
+            let response = try await query.execute()
             
             return response.count ?? 0
         } catch {

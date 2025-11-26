@@ -12,14 +12,13 @@ final class PropertyDatabaseService: BaseDatabaseService<Property> {
     /// Search properties by address or city
     func search(query: String) async throws -> [Property] {
         do {
-            let response: [Property] = try await supabase.database
-                .from(tableName)
+            let queryBuilder = supabase.from(tableName)
                 .select()
                 .or("address.ilike.%\(query)%,city.ilike.%\(query)%,state.ilike.%\(query)%")
-                .execute()
-                .value
+            let response: PostgrestResponse<[Property]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -28,14 +27,13 @@ final class PropertyDatabaseService: BaseDatabaseService<Property> {
     /// Filter properties by type
     func fetchByType(_ type: PropertyType) async throws -> [Property] {
         do {
-            let response: [Property] = try await supabase.database
-                .from(tableName)
+            let queryBuilder = supabase.from(tableName)
                 .select()
                 .eq("property_type", value: type.rawValue)
-                .execute()
-                .value
+            let response: PostgrestResponse<[Property]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -44,14 +42,13 @@ final class PropertyDatabaseService: BaseDatabaseService<Property> {
     /// Filter properties by status
     func fetchByStatus(_ status: PropertyStatus) async throws -> [Property] {
         do {
-            let response: [Property] = try await supabase.database
-                .from(tableName)
+            let queryBuilder = supabase.from(tableName)
                 .select()
                 .eq("status", value: status.rawValue)
-                .execute()
-                .value
+            let response: PostgrestResponse<[Property]> = try await queryBuilder.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -61,12 +58,12 @@ final class PropertyDatabaseService: BaseDatabaseService<Property> {
     func fetchPortfolioDashboard() async throws -> PortfolioDashboardMetrics {
         do {
             // This would typically be a database function or RPC call
-            let response: PortfolioDashboardMetrics = try await supabase.database
+            let query = try supabase.client
                 .rpc("get_portfolio_dashboard")
-                .execute()
-                .value
+            let response: PostgrestResponse<PortfolioDashboardMetrics> = try await query.execute()
+            let value = response.value
             
-            return response
+            return value
         } catch {
             throw SupabaseError.map(error)
         }
@@ -82,12 +79,11 @@ final class PropertyDatabaseService: BaseDatabaseService<Property> {
             var result: [(Property, [Unit])] = []
             
             for property in properties {
-                let units: [Unit] = try await supabase.database
-                    .from("units")
+                let unitsQuery = supabase.from("units")
                     .select()
                     .eq("property_id", value: property.id)
-                    .execute()
-                    .value
+                let unitsResponse: PostgrestResponse<[Unit]> = try await unitsQuery.execute()
+                let units = unitsResponse.value
                 
                 result.append((property, units))
             }

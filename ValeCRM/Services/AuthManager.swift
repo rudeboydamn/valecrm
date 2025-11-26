@@ -135,10 +135,9 @@ final class AuthManager: ObservableObject {
                 lastLogin: Date()
             )
             
-            try await supabase.database
-                .from("users")
+            let query = try supabase.from("users")
                 .insert(userProfile)
-                .execute()
+            let _: PostgrestResponse<[User]> = try await query.execute()
             
             await MainActor.run {
                 self.currentUser = userProfile
@@ -199,7 +198,7 @@ final class AuthManager: ObservableObject {
     /// Setup listener for auth state changes
     private func setupAuthStateListener() {
         authStateTask = _Concurrency.Task {
-            for await state in await supabase.auth.authStateChanges {
+            for await state in supabase.auth.authStateChanges {
                 await handleAuthStateChange(state.event, session: state.session)
             }
         }
@@ -256,15 +255,14 @@ final class AuthManager: ObservableObject {
     /// Fetch user profile from database
     private func fetchUserProfile(userId: String) async {
         do {
-            let response: [User] = try await supabase.database
-                .from("users")
+            let queryBuilder = supabase.from("users")
                 .select()
                 .eq("id", value: userId)
-                .execute()
-                .value
+            let response: PostgrestResponse<[User]> = try await queryBuilder.execute()
+            let value = response.value
             
             await MainActor.run {
-                self.currentUser = response.first
+                self.currentUser = value.first
             }
         } catch {
             print("Failed to fetch user profile: \(error)")

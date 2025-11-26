@@ -7,10 +7,9 @@ struct ContentView: View {
     @StateObject private var projectViewModel: RehabProjectViewModel
     
     init() {
-        let networkService = NetworkService.shared
-        _leadViewModel = StateObject(wrappedValue: LeadViewModel(networkService: networkService))
-        _portfolioViewModel = StateObject(wrappedValue: PortfolioViewModel(networkService: networkService))
-        _projectViewModel = StateObject(wrappedValue: RehabProjectViewModel(networkService: networkService))
+        _leadViewModel = StateObject(wrappedValue: LeadViewModel())
+        _portfolioViewModel = StateObject(wrappedValue: PortfolioViewModel())
+        _projectViewModel = StateObject(wrappedValue: RehabProjectViewModel())
     }
     
     var body: some View {
@@ -161,7 +160,9 @@ struct MoreView: View {
                     
                     Section {
                         Button(role: .destructive) {
-                            authManager.signOut()
+                            _Concurrency.Task {
+                                await authManager.signOut()
+                            }
                         } label: {
                             HStack {
                                 Spacer()

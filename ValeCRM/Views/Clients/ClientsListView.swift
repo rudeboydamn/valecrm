@@ -7,7 +7,7 @@ struct ClientsListView: View {
     @State private var showingFilters = false
     
     init() {
-        _viewModel = StateObject(wrappedValue: ClientViewModel(networkService: NetworkService.shared))
+        _viewModel = StateObject(wrappedValue: ClientViewModel())
     }
     
     var body: some View {

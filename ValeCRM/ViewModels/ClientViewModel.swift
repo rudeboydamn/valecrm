@@ -46,7 +46,7 @@ final class ClientViewModel: ObservableObject {
     }
     
     func fetchClients() {
-        Task {
+        _Concurrency.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -66,7 +66,7 @@ final class ClientViewModel: ObservableObject {
     }
     
     func createClient(_ client: Client) {
-        Task {
+        _Concurrency.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -88,7 +88,7 @@ final class ClientViewModel: ObservableObject {
     }
     
     func updateClient(_ client: Client) {
-        Task {
+        _Concurrency.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -110,7 +110,7 @@ final class ClientViewModel: ObservableObject {
     }
     
     func deleteClient(_ client: Client) {
-        Task {
+        _Concurrency.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -156,9 +156,7 @@ final class ClientViewModel: ObservableObject {
                     },
                     onDelete: { [weak self] (clientId: String) in
                         guard let self = self else { return }
-                        if let uuid = UUID(uuidString: clientId) {
-                            self.clients.removeAll { $0.id == uuid }
-                        }
+                        self.clients.removeAll { $0.id == clientId }
                     }
                 )
             } catch {

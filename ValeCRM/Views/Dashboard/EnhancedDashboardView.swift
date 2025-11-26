@@ -8,11 +8,10 @@ struct EnhancedDashboardView: View {
     @StateObject var projectViewModel: RehabProjectViewModel
     
     init() {
-        let networkService = NetworkService.shared
-        _dashboardViewModel = StateObject(wrappedValue: DashboardViewModel(networkService: networkService))
-        _leadViewModel = StateObject(wrappedValue: LeadViewModel(networkService: networkService))
-        _taskViewModel = StateObject(wrappedValue: TaskViewModel(networkService: networkService))
-        _projectViewModel = StateObject(wrappedValue: RehabProjectViewModel(networkService: networkService))
+        _dashboardViewModel = StateObject(wrappedValue: DashboardViewModel())
+        _leadViewModel = StateObject(wrappedValue: LeadViewModel())
+        _taskViewModel = StateObject(wrappedValue: TaskViewModel())
+        _projectViewModel = StateObject(wrappedValue: RehabProjectViewModel())
     }
     
     var body: some View {

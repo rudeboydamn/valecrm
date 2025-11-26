@@ -21,55 +21,46 @@ final class PortfolioViewModel: ObservableObject {
     init() {}
     
     func fetchPortfolioData() {
-        Task {
+        _Concurrency.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
                 // Fetch properties
                 let fetchedProperties = try await propertyService.fetchAll()
                 
-                // Fetch portfolio dashboard metrics (may need RPC function)
-                let dashboard: PortfolioDashboardMetrics = try await supabase.database
-                    .rpc("get_portfolio_dashboard")
-                    .execute()
-                    .value
+                // Fetch portfolio dashboard metrics via PropertyDatabaseService
+                let dashboard = try await propertyService.fetchPortfolioDashboard()
                 
                 // Fetch related entities
-                let fetchedUnits: [Unit] = try await supabase.database
-                    .from("units")
+                let unitsQuery = supabase.from("units")
                     .select()
-                    .execute()
-                    .value
+                let unitsResponse: PostgrestResponse<[Unit]> = try await unitsQuery.execute()
+                let fetchedUnits = unitsResponse.value
                 
-                let fetchedResidents: [Resident] = try await supabase.database
-                    .from("residents")
+                let residentsQuery = supabase.from("residents")
                     .select()
-                    .execute()
-                    .value
+                let residentsResponse: PostgrestResponse<[Resident]> = try await residentsQuery.execute()
+                let fetchedResidents = residentsResponse.value
                 
-                let fetchedLeases: [Lease] = try await supabase.database
-                    .from("leases")
+                let leasesQuery = supabase.from("leases")
                     .select()
-                    .execute()
-                    .value
+                let leasesResponse: PostgrestResponse<[Lease]> = try await leasesQuery.execute()
+                let fetchedLeases = leasesResponse.value
                 
-                let fetchedMortgages: [Mortgage] = try await supabase.database
-                    .from("mortgages")
+                let mortgagesQuery = supabase.from("mortgages")
                     .select()
-                    .execute()
-                    .value
+                let mortgagesResponse: PostgrestResponse<[Mortgage]> = try await mortgagesQuery.execute()
+                let fetchedMortgages = mortgagesResponse.value
                 
-                let fetchedExpenses: [Expense] = try await supabase.database
-                    .from("expenses")
+                let expensesQuery = supabase.from("expenses")
                     .select()
-                    .execute()
-                    .value
+                let expensesResponse: PostgrestResponse<[Expense]> = try await expensesQuery.execute()
+                let fetchedExpenses = expensesResponse.value
                 
-                let fetchedPayments: [Payment] = try await supabase.database
-                    .from("payments")
+                let paymentsQuery = supabase.from("payments")
                     .select()
-                    .execute()
-                    .value
+                let paymentsResponse: PostgrestResponse<[Payment]> = try await paymentsQuery.execute()
+                let fetchedPayments = paymentsResponse.value
                 
                 await MainActor.run {
                     self.dashboardMetrics = dashboard

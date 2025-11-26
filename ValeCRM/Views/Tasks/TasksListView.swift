@@ -6,7 +6,7 @@ struct TasksListView: View {
     @State private var selectedSegment = 0
     
     init() {
-        _viewModel = StateObject(wrappedValue: TaskViewModel(networkService: NetworkService.shared))
+        _viewModel = StateObject(wrappedValue: TaskViewModel())
     }
     
     var body: some View {

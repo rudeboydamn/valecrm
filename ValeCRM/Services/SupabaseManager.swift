@@ -9,29 +9,39 @@ final class SupabaseManager {
     let client: SupabaseClient
     
     private init() {
-        // Initialize Supabase client with configuration from Info.plist
-        let supabaseURL = URL(string: AppConfig.supabaseURL)!
+        // Safely read Supabase configuration; fail with clear errors if missing
+        let supabaseURLString = AppConfig.supabaseURL
+        guard !supabaseURLString.isEmpty,
+              let supabaseURL = URL(string: supabaseURLString) else {
+            fatalError("Supabase URL is missing or invalid. Ensure AppConfig.supabaseURL is set correctly in your configuration.")
+        }
+        
         let supabaseKey = AppConfig.supabaseAnonKey
+        guard !supabaseKey.isEmpty else {
+            fatalError("Supabase anon key is missing. Ensure AppConfig.supabaseAnonKey is set correctly in your configuration.")
+        }
+        
+        print("[SupabaseManager] Initializing with URL: \(supabaseURL)")
+        print("[SupabaseManager] SupabaseKey present: \(!supabaseKey.isEmpty)")
+        print("[SupabaseManager] AppConfig.appVersion: '\(AppConfig.appVersion)'")
+        
+        // Prepare options safely
+        let dbOptions = SupabaseClientOptions.DatabaseOptions(schema: "public")
+        let authOptions = SupabaseClientOptions.AuthOptions()
+        let options = SupabaseClientOptions(
+            db: dbOptions,
+            auth: authOptions
+        )
+        
+        print("[SupabaseManager] Options constructed. Creating SupabaseClient...")
         
         self.client = SupabaseClient(
             supabaseURL: supabaseURL,
             supabaseKey: supabaseKey,
-            options: SupabaseClientOptions(
-                db: SupabaseClientOptions.DatabaseOptions(
-                    schema: "public"
-                ),
-                auth: SupabaseClientOptions.AuthOptions(
-                    autoRefreshToken: true,
-                    persistSession: true,
-                    detectSessionInUrl: false
-                ),
-                global: SupabaseClientOptions.GlobalOptions(
-                    headers: [
-                        "X-Client-Info": "supabase-swift/\(AppConfig.appVersion)"
-                    ]
-                )
-            )
+            options: options
         )
+        
+        print("[SupabaseManager] SupabaseClient initialized successfully.")
     }
     
     // MARK: - Convenience Accessors
@@ -40,16 +50,18 @@ final class SupabaseManager {
         client.auth
     }
     
-    var database: PostgrestClient {
-        client.database
-    }
-    
-    var realtime: RealtimeClient {
-        client.realtime
-    }
-    
     var storage: SupabaseStorageClient {
         client.storage
+    }
+    
+    /// Convenience helper for building Postgrest queries without accessing deprecated APIs
+    func from(_ table: String) -> PostgrestQueryBuilder {
+        client.from(table)
+    }
+    
+    /// Access to Realtime v2 client
+    var realtimeClient: RealtimeClientV2 {
+        client.realtimeV2
     }
     
     // MARK: - Session Management
@@ -71,9 +83,5 @@ final class SupabaseManager {
         }
     }
     
-    /// Get current user
-    func getCurrentUser() async throws -> User? {
-        let session = try await auth.session
-        return session.user
-    }
+    // NOTE: If you need the raw Supabase auth user, access `auth.session.user` directly.
 }

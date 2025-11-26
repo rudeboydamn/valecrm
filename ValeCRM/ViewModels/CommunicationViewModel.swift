@@ -40,7 +40,7 @@ final class CommunicationViewModel: ObservableObject {
     }
     
     func fetchCommunications() {
-        Task {
+        _Concurrency.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -60,7 +60,7 @@ final class CommunicationViewModel: ObservableObject {
     }
     
     func createCommunication(_ communication: Communication) {
-        Task {
+        _Concurrency.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -82,7 +82,7 @@ final class CommunicationViewModel: ObservableObject {
     }
     
     func updateCommunication(_ communication: Communication) {
-        Task {
+        _Concurrency.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -104,7 +104,7 @@ final class CommunicationViewModel: ObservableObject {
     }
     
     func deleteCommunication(_ communication: Communication) {
-        Task {
+        _Concurrency.Task {
             await MainActor.run { self.isLoading = true }
             
             do {
@@ -149,9 +149,7 @@ final class CommunicationViewModel: ObservableObject {
                     },
                     onDelete: { [weak self] (commId: String) in
                         guard let self = self else { return }
-                        if let uuid = UUID(uuidString: commId) {
-                            self.communications.removeAll { $0.id == uuid }
-                        }
+                        self.communications.removeAll { $0.id == commId }
                     }
                 )
             } catch {

@@ -171,9 +171,7 @@ final class RehabProjectViewModel: ObservableObject {
                     },
                     onDelete: { [weak self] (projectId: String) in
                         guard let self = self else { return }
-                        if let uuid = UUID(uuidString: projectId) {
-                            self.projects.removeAll { $0.id == uuid }
-                        }
+                        self.projects.removeAll { $0.id == projectId }
                     }
                 )
             } catch {
